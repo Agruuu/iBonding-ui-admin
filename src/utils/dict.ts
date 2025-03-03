@@ -142,16 +142,6 @@ export enum DICT_TYPE {
   INFRA_FILE_STORAGE = 'infra_file_storage',
   INFRA_OPERATE_TYPE = 'infra_operate_type',
 
-  // ========== BPM modular ==========
-  BPM_MODEL_TYPE = 'bpm_model_type',
-  BPM_MODEL_FORM_TYPE = 'bpm_model_form_type',
-  BPM_TASK_CANDIDATE_STRATEGY = 'bpm_task_candidate_strategy',
-  BPM_PROCESS_INSTANCE_STATUS = 'bpm_process_instance_status',
-  BPM_TASK_STATUS = 'bpm_task_status',
-  BPM_OA_LEAVE_TYPE = 'bpm_oa_leave_type',
-  BPM_PROCESS_LISTENER_TYPE = 'bpm_process_listener_type',
-  BPM_PROCESS_LISTENER_VALUE_TYPE = 'bpm_process_listener_value_type',
-
   // ========== PAY modular ==========
   PAY_CHANNEL_CODE = 'pay_channel_code', // Payment channel code type
   PAY_ORDER_STATUS = 'pay_order_status', // Merchant payment order status
@@ -161,62 +151,10 @@ export enum DICT_TYPE {
   PAY_TRANSFER_STATUS = 'pay_transfer_status', // Transfer order status
   PAY_TRANSFER_TYPE = 'pay_transfer_type', // Transfer order status
 
-  // ========== MP modular ==========
-  MP_AUTO_REPLY_REQUEST_MATCH = 'mp_auto_reply_request_match', // Automatic reply request matching type
-  MP_MESSAGE_TYPE = 'mp_message_type', // Message type
-
   // ========== Member Membership module ==========
   MEMBER_POINT_BIZ_TYPE = 'member_point_biz_type', // Business types of points
   MEMBER_EXPERIENCE_BIZ_TYPE = 'member_experience_biz_type', // Membership Experience Business Type
-
-  // ========== MALL - Product module ==========
-  PRODUCT_SPU_STATUS = 'product_spu_status', //Product status
-
-  // ========== MALL - Trading module ==========
-  EXPRESS_CHARGE_MODE = 'trade_delivery_express_charge_mode', //The billing method for express delivery
-  TRADE_AFTER_SALE_STATUS = 'trade_after_sale_status', // After sales - state
-  TRADE_AFTER_SALE_WAY = 'trade_after_sale_way', // After sales - mode
-  TRADE_AFTER_SALE_TYPE = 'trade_after_sale_type', // After sales - type
-  TRADE_ORDER_TYPE = 'trade_order_type', // order - type
-  TRADE_ORDER_STATUS = 'trade_order_status', // order - state
-  TRADE_ORDER_ITEM_AFTER_SALE_STATUS = 'trade_order_item_after_sale_status', // Order Item - After sales status
-  TRADE_DELIVERY_TYPE = 'trade_delivery_type', // Delivery method
-  BROKERAGE_ENABLED_CONDITION = 'brokerage_enabled_condition', // Commission sharing mode
-  BROKERAGE_BIND_MODE = 'brokerage_bind_mode', // Distribution relationship binding mode
-  BROKERAGE_BANK_NAME = 'brokerage_bank_name', // Commission withdrawal bank
-  BROKERAGE_WITHDRAW_TYPE = 'brokerage_withdraw_type', // Commission withdrawal type
-  BROKERAGE_RECORD_BIZ_TYPE = 'brokerage_record_biz_type', // Commission business type
-  BROKERAGE_RECORD_STATUS = 'brokerage_record_status', // Commission status
-  BROKERAGE_WITHDRAW_STATUS = 'brokerage_withdraw_status', // Commission withdrawal status
-
-  // ========== MALL - Marketing module ==========
-  PROMOTION_DISCOUNT_TYPE = 'promotion_discount_type', // Discount type
-  PROMOTION_PRODUCT_SCOPE = 'promotion_product_scope', // Scope of Marketing Products
-  PROMOTION_COUPON_TEMPLATE_VALIDITY_TYPE = 'promotion_coupon_template_validity_type', // Limited term types of coupon templates
-  PROMOTION_COUPON_STATUS = 'promotion_coupon_status', // Status of coupons
-  PROMOTION_COUPON_TAKE_TYPE = 'promotion_coupon_take_type', // How to receive coupons
-  PROMOTION_CONDITION_TYPE = 'promotion_condition_type', // List of conditional types for marketing
-  PROMOTION_BARGAIN_RECORD_STATUS = 'promotion_bargain_record_status', // The status of bargaining records
-  PROMOTION_COMBINATION_RECORD_STATUS = 'promotion_combination_record_status', // The status of group buying records
-  PROMOTION_BANNER_POSITION = 'promotion_banner_position', // banner location
-
-  // ========== CRM - Customer management module ==========
-  CRM_AUDIT_STATUS = 'crm_audit_status', // CRM Approval status
-  CRM_BIZ_TYPE = 'crm_biz_type', // CRM Business type
-  CRM_BUSINESS_END_STATUS_TYPE = 'crm_business_end_status_type', // CRM Business opportunity end status type
-  CRM_RECEIVABLE_RETURN_TYPE = 'crm_receivable_return_type', // CRM Repayment method for repayment
-  CRM_CUSTOMER_INDUSTRY = 'crm_customer_industry', // CRM Customer's industry
-  CRM_CUSTOMER_LEVEL = 'crm_customer_level', // CRM Customer level
-  CRM_CUSTOMER_SOURCE = 'crm_customer_source', // CRM Customer source
-  CRM_PRODUCT_STATUS = 'crm_product_status', // CRM Product status
-  CRM_PERMISSION_LEVEL = 'crm_permission_level', // CRM Level of data permissions
-  CRM_PRODUCT_UNIT = 'crm_product_unit', // CRM Product Unit
-  CRM_FOLLOW_UP_TYPE = 'crm_follow_up_type', // CRM Follow up method
-
-  // ========== ERP - Enterprise Resource Planning Module  ==========
-  ERP_AUDIT_STATUS = 'erp_audit_status', // ERP Approval status
-  ERP_STOCK_RECORD_BIZ_TYPE = 'erp_stock_record_biz_type', // Business types of inventory details
-
+  
   // ========== AI - Artificial Intelligence Module  ==========
   AI_PLATFORM = 'ai_platform', // AI platform
   AI_IMAGE_STATUS = 'ai_image_status', // AI Image status

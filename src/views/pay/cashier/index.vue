@@ -275,11 +275,11 @@ const submit = (channelCode) => {
 
   // WeChat official account、Mini program payment，Cannot be in PC On the webpage
   if (channelCode === PayChannelEnum.WX_PUB.code) {
-    message.error('WeChat official account payment：I won't support it PC website')
+    message.error('WeChat official account payment：I wont support it PC website')
     return
   }
   if (channelCode === PayChannelEnum.WX_LITE.code) {
-    message.error('WeChat Mini Program：I won't support it PC website')
+    message.error('WeChat Mini Program：I wont support it PC website')
     return
   }
 

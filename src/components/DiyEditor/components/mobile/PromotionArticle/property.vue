@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import { PromotionArticleProperty } from './config'
 import { useVModel } from '@vueuse/core'
-import * as ArticleApi from '@/api/mall/promotion/article/index'
 
 // Marketing article attribute panel
 defineOptions({ name: 'PromotionArticleProperty' })
@@ -34,15 +33,12 @@ defineOptions({ name: 'PromotionArticleProperty' })
 const props = defineProps<{ modelValue: PromotionArticleProperty }>()
 const emit = defineEmits(['update:modelValue'])
 const formData = useVModel(props, 'modelValue', emit)
-// Article List
-const articles = ref<ArticleApi.ArticleVO>([])
 
 // Loading in progress
 const loading = ref(false)
 // Search article list
 const queryArticleList = async (title?: string) => {
   loading.value = true
-  const { list } = await ArticleApi.getArticlePage({ title, pageSize: 10 })
   articles.value = list
   loading.value = false
 }

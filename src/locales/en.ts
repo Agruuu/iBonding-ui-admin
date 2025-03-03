@@ -114,7 +114,7 @@ export default {
   },
   login: {
     welcome: 'Welcome to the system',
-    message: 'Backstage management system',
+    message: 'Backend management system',
     username: 'Username',
     password: 'Password',
     code: 'verification code',
@@ -371,7 +371,7 @@ export default {
       signUpFormTitle: 'Sign up',
       forgetFormTitle: 'Reset password',
 
-      signInTitle: 'Backstage management system',
+      signInTitle: 'Backend management system',
       signInDesc: 'Enter your personal details and get started!',
       policy: 'I agree to the xxx Privacy Policy',
       scanSign: `scanning the code to complete the login`,

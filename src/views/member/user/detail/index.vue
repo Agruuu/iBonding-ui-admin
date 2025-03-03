@@ -48,17 +48,11 @@
           <el-tab-pane label="Order management" lazy>
             <UserOrderList :user-id="id" />
           </el-tab-pane>
-          <el-tab-pane label="After sales management" lazy>
-            <UserAfterSaleList :user-id="id" />
-          </el-tab-pane>
           <el-tab-pane label="Collection record" lazy>
             <UserFavoriteList :user-id="id" />
           </el-tab-pane>
           <el-tab-pane label="Discount coupons" lazy>
             <UserCouponList :user-id="id" />
-          </el-tab-pane>
-          <el-tab-pane label="Promote users" lazy>
-            <UserBrokerageList :bind-user-id="id" />
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -76,14 +70,9 @@ import UserForm from '@/views/member/user/UserForm.vue'
 import UserAccountInfo from './UserAccountInfo.vue'
 import UserAddressList from './UserAddressList.vue'
 import UserBasicInfo from './UserBasicInfo.vue'
-import UserBrokerageList from './UserBrokerageList.vue'
-import UserCouponList from './UserCouponList.vue'
 import UserExperienceRecordList from './UserExperienceRecordList.vue'
-import UserOrderList from './UserOrderList.vue'
 import UserPointList from './UserPointList.vue'
 import UserSignList from './UserSignList.vue'
-import UserFavoriteList from './UserFavoriteList.vue'
-import UserAfterSaleList from './UserAftersaleList.vue'
 import UserBalanceList from './UserBalanceList.vue'
 import { CardTitle } from '@/components/Card/index'
 import { ElMessage } from 'element-plus'

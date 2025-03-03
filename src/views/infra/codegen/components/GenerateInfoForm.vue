@@ -43,7 +43,7 @@
           <template #label>
             <span>
               Superior Menu
-              <el-tooltip content="Allocate it under the specified menu, for example, "System Management"." placement="top">
+              <el-tooltip content="Allocate it under the specified menu, for example, System Management." placement="top">
                 <Icon icon="ep:question-filled" />
               </el-tooltip>
             </span>

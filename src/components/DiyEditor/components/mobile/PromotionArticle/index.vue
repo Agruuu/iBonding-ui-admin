@@ -3,7 +3,6 @@
 </template>
 <script setup lang="ts">
 import { PromotionArticleProperty } from './config'
-import * as ArticleApi from '@/api/mall/promotion/article/index'
 
 /** Marketing articles */
 defineOptions({ name: 'PromotionArticle' })

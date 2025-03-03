@@ -199,40 +199,6 @@ export const PayOrderStatusEnum = {
   }
 }
 
-// ========== MALL - Product module ==========
-/**
- * commodity SPU state
- */
-export const ProductSpuStatusEnum = {
-  RECYCLE: {
-    status: -1,
-    name: 'Recycle Bin'
-  },
-  DISABLE: {
-    status: 0,
-    name: 'Remove From Shelves'
-  },
-  ENABLE: {
-    status: 1,
-    name: 'Put on Shelves'
-  }
-}
-
-// ========== MALL - Marketing module ==========
-/**
- * Enumeration of Limited Term Types for Coupon Templates
- */
-export const CouponTemplateValidityTypeEnum = {
-  DATE: {
-    type: 1,
-    name: 'Fixed Date Available'
-  },
-  TERM: {
-    type: 2,
-    name: 'Available After Get'
-  }
-}
-
 /**
  * Enumeration of ways to receive discount coupon templates
  */
@@ -297,24 +263,6 @@ export const PromotionDiscountTypeEnum = {
   }
 }
 
-// ========== MALL - Trading module ==========
-/**
- * Enumeration of Distribution Relationship Binding Modes
- */
-export const BrokerageBindModeEnum = {
-  ANYTIME: {
-    mode: 1,
-    name: 'First Binding'
-  },
-  REGISTER: {
-    mode: 2,
-    name: 'Register Binding'
-  },
-  OVERRIDE: {
-    mode: 3,
-    name: 'Cover Binding'
-  }
-}
 /**
  * Commission sharing mode enumeration
  */
