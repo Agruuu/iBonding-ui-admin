@@ -2,13 +2,13 @@
   <el-card class="my-card h-full">
     <template #header>
       <h3 class="m-0 px-7 shrink-0 flex items-center justify-between">
-        <span>preview</span>
+        <span>Preview</span>
         <!-- Displayed in the upper right corner -->
         <el-button color="#846af7" v-show="showCopy" @click="copyContent" size="small">
           <template #icon>
             <Icon icon="ph:copy-bold" />
           </template>
-          copy
+          Copy
         </el-button>
       </h3>
     </template>

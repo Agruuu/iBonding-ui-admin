@@ -18,7 +18,7 @@
       </template>
     </Title>
 
-    <Title title="version" desc="Describe the music style and theme you want，Use genres and atmospheres instead of specific artists and songs">
+    <Title title="Version" desc="Describe the music style and theme you want，Use genres and atmospheres instead of specific artists and songs">
       <el-select v-model="formData.version" placeholder="Please choose">
         <el-option
           v-for="item in [{

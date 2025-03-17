@@ -82,18 +82,18 @@
           />
         </template>
 
-        <ReuseLabel label="length" />
+        <ReuseLabel label="Length" />
         <Tag v-model="formData.length" :tags="getIntDictOptions(DICT_TYPE.AI_WRITE_LENGTH)" />
-        <ReuseLabel label="format" />
+        <ReuseLabel label="Format" />
         <Tag v-model="formData.format" :tags="getIntDictOptions(DICT_TYPE.AI_WRITE_FORMAT)" />
-        <ReuseLabel label="tone" />
+        <ReuseLabel label="Tone" />
         <Tag v-model="formData.tone" :tags="getIntDictOptions(DICT_TYPE.AI_WRITE_TONE)" />
-        <ReuseLabel label="language" />
+        <ReuseLabel label="Language" />
         <Tag v-model="formData.language" :tags="getIntDictOptions(DICT_TYPE.AI_WRITE_LANGUAGE)" />
 
         <div class="flex items-center justify-center mt-3">
           <el-button :disabled="isWriting" @click="reset">Reset</el-button>
-          <el-button :loading="isWriting" color="#846af7" @click="submit">generate</el-button>
+          <el-button :loading="isWriting" color="#846af7" @click="submit">Generate</el-button>
         </div>
       </div>
     </div>
@@ -143,8 +143,8 @@ const tabs: {
   text: string
   value: TabType
 }[] = [
-  { text: 'compose', value: AiWriteTypeEnum.WRITING },
-  { text: 'reply', value: AiWriteTypeEnum.REPLY }
+  { text: 'Compose', value: AiWriteTypeEnum.WRITING },
+  { text: 'Reply', value: AiWriteTypeEnum.REPLY }
 ]
 const [DefineTab, ReuseTab] = createReusableTemplate<{
   active?: boolean

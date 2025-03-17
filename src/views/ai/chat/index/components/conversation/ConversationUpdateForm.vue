@@ -11,17 +11,17 @@
         <el-input
           type="textarea"
           v-model="formData.systemMessage"
-          rows="4"
+          :rows="4"
           placeholder="Please enter the role settings"
         />
       </el-form-item>
       <el-form-item label="Model" prop="modelId">
         <el-select v-model="formData.modelId" placeholder="Please select a model">
           <el-option
-            v-for="chatModel in chatModelList"
-            :key="chatModel.id"
-            :label="chatModel.name"
-            :value="chatModel.id"
+            v-for="model in models"
+            :key="model.id"
+            :label="model.name"
+            :value="model.id"
           />
         </el-select>
       </el-form-item>
@@ -32,6 +32,7 @@
           :min="0"
           :max="2"
           :precision="2"
+          class="!w-1/1"
         />
       </el-form-item>
       <el-form-item label="Number of replies, Number of tokens" prop="maxTokens">
@@ -39,7 +40,8 @@
           v-model="formData.maxTokens"
           placeholder="Please enter the number of replies, Number of tokens"
           :min="0"
-          :max="4096"
+          :max="8192"
+          class="!w-1/1"
         />
       </el-form-item>
       <el-form-item label="Number of contexts" prop="maxContexts">
@@ -48,6 +50,7 @@
           placeholder="Please enter the number of contexts"
           :min="0"
           :max="20"
+          class="!w-1/1"
         />
       </el-form-item>
     </el-form>
@@ -58,9 +61,9 @@
   </Dialog>
 </template>
 <script setup lang="ts">
-import { CommonStatusEnum } from '@/utils/constants'
-import { ChatModelApi, ChatModelVO } from '@/api/ai/model/chatModel'
+import { ModelApi, ModelVO } from '@/api/ai/model/model'
 import { ChatConversationApi, ChatConversationVO } from '@/api/ai/chat/conversation'
+import { AiModelTypeEnum } from '@/views/ai/utils/constants'
 
 /** AI Update form for chat conversation */
 defineOptions({ name: 'ChatConversationUpdateForm' })

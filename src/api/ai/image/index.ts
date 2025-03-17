@@ -20,9 +20,8 @@ export interface ImageVO {
 }
 
 export interface ImageDrawReqVO {
-  platform: string // platform
-  prompt: string // cue word
-  model: string // Model
+  prompt: string // 提示词
+  modelId: number // 模型
   style: string // The style of image generation
   width: string // image width
   height: string // Image height
@@ -31,7 +30,7 @@ export interface ImageDrawReqVO {
 
 export interface ImageMidjourneyImagineReqVO {
   prompt: string // cue word
-  model: string // Model mj nijj
+  modelId: number // 模型
   base64Array: string[] // sizeCannot be empty
   width: string // image width
   height: string // Image height

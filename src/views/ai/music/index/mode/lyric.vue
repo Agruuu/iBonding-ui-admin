@@ -43,8 +43,8 @@
       <el-input v-model="formData.name" placeholder="Please enter Music/Song name"/>
     </Title>
 
-    <Title title="version">
-      <el-select v-model="formData.version" placeholder="Please choose">
+    <Title title="Version">
+      <el-select v-model="formData.version" placeholder="Please Choose">
         <el-option
           v-for="item in [{
             value: '3',

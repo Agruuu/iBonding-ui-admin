@@ -63,7 +63,7 @@
       <el-table-column label="Mind map" align="center" prop="generatedContent" min-width="300" />
       <el-table-column label="Model" align="center" prop="model" width="180" />
       <el-table-column
-        label="Creation time"
+        label="Create time"
         align="center"
         prop="createTime"
         :formatter="dateFormatter"

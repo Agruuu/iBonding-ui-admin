@@ -69,7 +69,19 @@
       <el-table-column label="Role category" align="center" prop="category" />
       <el-table-column label="Role description" align="center" prop="description" />
       <el-table-column label="Role setting" align="center" prop="systemMessage" />
-      <el-table-column label="Public status" align="center" prop="publicStatus">
+      <el-table-column label="Knowledge Base" align="center" prop="knowledgeIds">
+        <template #default="scope">
+          <span v-if="!scope.row.knowledgeIds || scope.row.knowledgeIds.length === 0">-</span>
+          <span v-else>引用 {{ scope.row.knowledgeIds.length }} 个</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Tool" align="center" prop="toolIds">
+        <template #default="scope">
+          <span v-if="!scope.row.toolIds || scope.row.toolIds.length === 0">-</span>
+          <span v-else>引用 {{ scope.row.toolIds.length }} 个</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Public Status" align="center" prop="publicStatus">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.INFRA_BOOLEAN_STRING" :value="scope.row.publicStatus" />
         </template>

@@ -62,7 +62,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="Creation time" prop="createTime">
+      <el-form-item label="Create time" prop="createTime">
         <el-date-picker
           v-model="queryParams.createTime"
           value-format="YYYY-MM-DD HH:mm:ss"

@@ -128,7 +128,14 @@
     </el-space>
   </div>
   <div class="btns">
-    <el-button type="primary" size="large" round :loading="drawIn" @click="handleGenerateImage">
+    <el-button
+      type="primary"
+      size="large"
+      round
+      :loading="drawIn"
+      :disabled="prompt.length === 0"
+      @click="handleGenerateImage"
+    >
       {{ drawIn ? 'Generating...' : 'Generated content' }}
     </el-button>
   </div>
@@ -143,8 +150,18 @@ import {
   StableDiffusionSamplers,
   StableDiffusionStylePresets
 } from '@/views/ai/utils/constants'
+import { ModelVO } from '@/api/ai/model/model'
 
 const message = useMessage() // Message pop-up window
+
+// 接收父组件传入的模型列表
+const props = defineProps({
+  models: {
+    type: Array<ModelVO>,
+    default: () => [] as ModelVO[]
+  }
+})
+const emits = defineEmits(['onDrawStart', 'onDrawComplete']) // 定义 emits
 
 // Define attributes
 const drawIn = ref<boolean>(false) // Generating in progress
@@ -160,9 +177,7 @@ const scale = ref<number>(7.5) // Guidance coefficient
 const clipGuidancePreset = ref<string>('NONE') // Images that match the text prompt(clip_guidance_preset) abbreviation CLIP
 const stylePreset = ref<string>('3d-model') // style
 
-const emits = defineEmits(['onDrawStart', 'onDrawComplete']) // definition emits
-
-/** Choose hot words */
+/** 选择热词 */
 const handleHotWordClick = async (hotWord: string) => {
   // Situation 1：Uncheck
   if (selectHotWord.value == hotWord) {
@@ -177,7 +192,17 @@ const handleHotWordClick = async (hotWord: string) => {
 
 /** Image generation */
 const handleGenerateImage = async () => {
-  // Secondary confirmation
+  // 从 models 中查找匹配的模型
+  const selectModel = 'stable-diffusion-v1-6'
+  const matchedModel = props.models.find(
+    (item) => item.model === selectModel && item.platform === AiPlatformEnum.STABLE_DIFFUSION
+  )
+  if (!matchedModel) {
+    message.error('The model is unavailable, please select another model.')
+    return
+  }
+
+  // 二次确认
   if (hasChinese(prompt.value)) {
     message.alert('Chinese is not currently supported！')
     return
@@ -191,8 +216,7 @@ const handleGenerateImage = async () => {
     emits('onDrawStart', AiPlatformEnum.STABLE_DIFFUSION)
     // Send request
     const form = {
-      platform: AiPlatformEnum.STABLE_DIFFUSION,
-      model: 'stable-diffusion-v1-6',
+      modelId: matchedModel.id,
       prompt: prompt.value, // cue word
       width: width.value, // image width
       height: height.value, // Image height

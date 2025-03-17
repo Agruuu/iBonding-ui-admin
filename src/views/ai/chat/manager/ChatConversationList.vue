@@ -64,7 +64,7 @@
       <el-table-column label="Model identification" align="center" prop="model" width="180" />
       <el-table-column label="Number of messages" align="center" prop="messageCount" />
       <el-table-column
-        label="Creation time"
+        label="Create time"
         align="center"
         prop="createTime"
         :formatter="dateFormatter"

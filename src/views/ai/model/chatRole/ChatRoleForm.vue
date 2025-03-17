@@ -16,10 +16,10 @@
       <el-form-item label="Binding model" prop="modelId" v-if="!isUser">
         <el-select v-model="formData.modelId" placeholder="Please select a model" clearable>
           <el-option
-            v-for="chatModel in chatModelList"
-            :key="chatModel.id"
-            :label="chatModel.name"
-            :value="chatModel.id"
+            v-for="model in models"
+            :key="model.id"
+            :label="model.name"
+            :value="model.id"
           />
         </el-select>
       </el-form-item>
@@ -32,7 +32,22 @@
       <el-form-item label="Role setting" prop="systemMessage">
         <el-input type="textarea" v-model="formData.systemMessage" placeholder="Please enter the role settings" />
       </el-form-item>
-      <el-form-item label="Public status" prop="publicStatus" v-if="!isUser">
+      <el-form-item label="Reference Knowledge Base" prop="knowledgeIds">
+        <el-select v-model="formData.knowledgeIds" placeholder="Please select a knowledge base." clearable multiple>
+          <el-option
+            v-for="item in knowledgeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Reference Tool" prop="toolIds">
+        <el-select v-model="formData.toolIds" placeholder="Please select a tool" clearable multiple>
+          <el-option v-for="item in toolList" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Public Status" prop="publicStatus" v-if="!isUser">
         <el-radio-group v-model="formData.publicStatus">
           <el-radio
             v-for="dict in getBoolDictOptions(DICT_TYPE.INFRA_BOOLEAN_STRING)"
@@ -68,8 +83,11 @@
 import { getIntDictOptions, getBoolDictOptions, DICT_TYPE } from '@/utils/dict'
 import { ChatRoleApi, ChatRoleVO } from '@/api/ai/model/chatRole'
 import { CommonStatusEnum } from '@/utils/constants'
-import { ChatModelApi, ChatModelVO } from '@/api/ai/model/chatModel'
+import { ModelApi, ModelVO } from '@/api/ai/model/model'
 import { FormRules } from 'element-plus'
+import { AiModelTypeEnum } from '@/views/ai/utils/constants'
+import { KnowledgeApi, KnowledgeVO } from '@/api/ai/knowledge/knowledge'
+import { ToolApi, ToolVO } from '@/api/ai/model/tool'
 
 /** AI Chat Role form  */
 defineOptions({ name: 'ChatRoleForm' })
@@ -91,10 +109,14 @@ const formData = ref({
   description: undefined,
   systemMessage: undefined,
   publicStatus: true,
-  status: CommonStatusEnum.ENABLE
+  status: CommonStatusEnum.ENABLE,
+  knowledgeIds: [] as number[],
+  toolIds: [] as number[]
 })
 const formRef = ref() // form  Ref
-const chatModelList = ref([] as ChatModelVO[]) // Chat Model List
+const models = ref([] as ModelVO[]) // 聊天模型列表
+const knowledgeList = ref([] as KnowledgeVO[]) // 知识库列表
+const toolList = ref([] as ToolVO[]) // 工具列表
 
 /** whether【I】Create your own，Private role */
 const isUser = computed(() => {
@@ -127,8 +149,12 @@ const open = async (type: string, id?: number, title?: string) => {
       formLoading.value = false
     }
   }
-  // Obtain dropdown data
-  chatModelList.value = await ChatModelApi.getChatModelSimpleList(CommonStatusEnum.ENABLE)
+  // 获得下拉数据
+  models.value = await ModelApi.getModelSimpleList(AiModelTypeEnum.CHAT)
+  // 获取知识库列表
+  knowledgeList.value = await KnowledgeApi.getSimpleKnowledgeList()
+  // 获取工具列表
+  toolList.value = await ToolApi.getToolSimpleList()
 }
 defineExpose({ open }) // provide open method，Used to open pop ups
 
@@ -176,7 +202,9 @@ const resetForm = () => {
     description: undefined,
     systemMessage: undefined,
     publicStatus: true,
-    status: CommonStatusEnum.ENABLE
+    status: CommonStatusEnum.ENABLE,
+    knowledgeIds: [],
+    toolIds: []
   }
   formRef.value?.resetFields()
 }

@@ -14,6 +14,13 @@ export interface ChatMessageVO {
   modelId: number // Model number
   content: string // Chat content
   tokens: number // consume Token quantity
+  segmentIds?: number[] // 段落编号
+  segments?: {
+    id: number // 段落编号
+    content: string // 段落内容
+    documentId: number // 文档编号
+    documentName: string // 文档名称
+  }[]
   createTime: Date // Creation time
   roleAvatar: string // Character avatar
   userAvatar: string // Creation time

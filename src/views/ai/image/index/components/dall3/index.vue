@@ -82,7 +82,14 @@
     </el-space>
   </div>
   <div class="btns">
-    <el-button type="primary" size="large" round :loading="drawIn" @click="handleGenerateImage">
+    <el-button
+      type="primary"
+      size="large"
+      round
+      :loading="drawIn"
+      :disabled="prompt.length === 0"
+      @click="handleGenerateImage"
+    >
       {{ drawIn ? 'Generating...' : 'Generated content' }}
     </el-button>
   </div>
@@ -95,22 +102,31 @@ import {
   ImageHotWords,
   Dall3SizeList,
   ImageModelVO,
-  AiPlatformEnum
+  AiPlatformEnum,
+  ImageSizeVO
 } from '@/views/ai/utils/constants'
+import { ModelVO } from '@/api/ai/model/model'
 
 const message = useMessage() // Message pop-up window
 
-// Define attributes
-const prompt = ref<string>('') // cue word
-const drawIn = ref<boolean>(false) // Generating in progress
-const selectHotWord = ref<string>('') // Selected hot words
-const selectModel = ref<string>('dall-e-3') // Model
-const selectSize = ref<string>('1024x1024') // Select size
-const style = ref<string>('vivid') // style style
+// 接收父组件传入的模型列表
+const props = defineProps({
+  models: {
+    type: Array<ModelVO>,
+    default: () => [] as ModelVO[]
+  }
+})
+const emits = defineEmits(['onDrawStart', 'onDrawComplete']) // 定义 emits
 
-const emits = defineEmits(['onDrawStart', 'onDrawComplete']) // definition emits
+// 定义属性
+const prompt = ref<string>('') // 提示词
+const drawIn = ref<boolean>(false) // 生成中
+const selectHotWord = ref<string>('') // 选中的热词
+const selectModel = ref<string>('dall-e-3') // 模型
+const selectSize = ref<string>('1024x1024') // 选中 size
+const style = ref<string>('vivid') // style 样式
 
-/** Choose hot words */
+/** 选择热词 */
 const handleHotWordClick = async (hotWord: string) => {
   // Situation 1：Uncheck
   if (selectHotWord.value == hotWord) {
@@ -126,6 +142,27 @@ const handleHotWordClick = async (hotWord: string) => {
 /** choice model Model */
 const handleModelClick = async (model: ImageModelVO) => {
   selectModel.value = model.key
+  // 可以在这里添加模型特定的处理逻辑
+  // 例如，如果未来需要根据不同模型设置不同参数
+  if (model.key === 'dall-e-3') {
+    // DALL-E-3 模型特定的处理
+    style.value = 'vivid' // 默认设置vivid风格
+  } else if (model.key === 'dall-e-2') {
+    // DALL-E-2 模型特定的处理
+    style.value = 'natural' // 如果有其他DALL-E-2适合的默认风格
+  }
+
+  // 更新其他相关参数
+  // 例如可以默认选择最适合当前模型的尺寸
+  const recommendedSize = Dall3SizeList.find(
+    (size) =>
+      (model.key === 'dall-e-3' && size.key === '1024x1024') ||
+      (model.key === 'dall-e-2' && size.key === '512x512')
+  )
+
+  if (recommendedSize) {
+    selectSize.value = recommendedSize.key
+  }
 }
 
 /** choice style style  */
@@ -140,7 +177,16 @@ const handleSizeClick = async (imageSize: ImageSizeVO) => {
 
 /**  Image production  */
 const handleGenerateImage = async () => {
-  // Secondary confirmation
+  // 从 models 中查找匹配的模型
+  const matchedModel = props.models.find(
+    (item) => item.model === selectModel.value && item.platform === AiPlatformEnum.OPENAI
+  )
+  if (!matchedModel) {
+    message.error('The model is unavailable, please select another model')
+    return
+  }
+
+  // 二次确认
   await message.confirm(`Confirm the generated content?`)
   try {
     // Loading in progress
@@ -151,7 +197,8 @@ const handleGenerateImage = async () => {
     const form = {
       platform: AiPlatformEnum.OPENAI,
       prompt: prompt.value, // cue word
-      model: selectModel.value, // Model
+      modelId: matchedModel.id, // 使用匹配到的模型
+      style: style.value, // 图像生成的风格
       width: imageSize.width, // size Cannot be empty
       height: imageSize.height, // size Cannot be empty
       options: {
@@ -183,11 +230,7 @@ const settingValues = async (detail: ImageVO) => {
 defineExpose({ settingValues })
 </script>
 <style scoped lang="scss">
-// prompt word
-.prompt {
-}
-
-// Hot words
+// 热词
 .hot-words {
   display: flex;
   flex-direction: column;

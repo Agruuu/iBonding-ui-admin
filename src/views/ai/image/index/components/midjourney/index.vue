@@ -95,7 +95,13 @@
     </el-space>
   </div>
   <div class="btns">
-    <el-button type="primary" size="large" round @click="handleGenerateImage">
+    <el-button
+      type="primary"
+      size="large"
+      round
+      :disabled="prompt.length === 0"
+      @click="handleGenerateImage"
+    >
       {{ drawIn ? 'Generating...' : 'Generated content' }}
     </el-button>
   </div>
@@ -112,8 +118,18 @@ import {
   MidjourneyVersions,
   NijiVersionList
 } from '@/views/ai/utils/constants'
+import { ModelVO } from '@/api/ai/model/model'
 
 const message = useMessage() // Message pop-up window
+
+// 接收父组件传入的模型列表
+const props = defineProps({
+  models: {
+    type: Array<ModelVO>,
+    default: () => [] as ModelVO[]
+  }
+})
+const emits = defineEmits(['onDrawStart', 'onDrawComplete']) // 定义 emits
 
 // Define attributes
 const drawIn = ref<boolean>(false) // Generating in progress
@@ -125,7 +141,6 @@ const selectModel = ref<string>('midjourney') // Selected model
 const selectSize = ref<string>('1:1') // Select size
 const selectVersion = ref<any>('6.0') // Selected ones version
 const versionList = ref<any>(MidjourneyVersions) // version list
-const emits = defineEmits(['onDrawStart', 'onDrawComplete']) // definition emits
 
 /** Choose hot words */
 const handleHotWordClick = async (hotWord: string) => {
@@ -158,7 +173,16 @@ const handleModelClick = async (model: ImageModelVO) => {
 
 /** Image generation */
 const handleGenerateImage = async () => {
-  // Secondary confirmation
+  // 从 models 中查找匹配的模型
+  const matchedModel = props.models.find(
+    (item) => item.model === selectModel.value && item.platform === AiPlatformEnum.MIDJOURNEY
+  )
+  if (!matchedModel) {
+    message.error('The model is unavailable, please select another model.')
+    return
+  }
+
+  // 二次确认
   await message.confirm(`Confirm the generated content?`)
   try {
     // Loading in progress
@@ -171,7 +195,7 @@ const handleGenerateImage = async () => {
     ) as ImageSizeVO
     const req = {
       prompt: prompt.value,
-      model: selectModel.value,
+      modelId: matchedModel.id,
       width: imageSize.width,
       height: imageSize.height,
       version: selectVersion.value,

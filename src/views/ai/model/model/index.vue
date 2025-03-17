@@ -1,6 +1,7 @@
 <template>
+
   <ContentWrap>
-    <!-- Search Work Bar -->
+    <!-- 搜索工作栏 -->
     <el-form
       class="-mb-15px"
       :model="queryParams"
@@ -8,41 +9,41 @@
       :inline="true"
       label-width="68px"
     >
-      <el-form-item label="Model Name" prop="name">
+      <el-form-item label="Name" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="Please enter the model name"
+          placeholder="Please enter the name"
           clearable
           @keyup.enter="handleQuery"
           class="!w-240px"
         />
       </el-form-item>
-      <el-form-item label="Model identification" prop="model">
+      <el-form-item label="Model" prop="model">
         <el-input
           v-model="queryParams.model"
-          placeholder="Please enter the model identifier"
+          placeholder="please enter the model"
           clearable
           @keyup.enter="handleQuery"
           class="!w-240px"
         />
       </el-form-item>
-      <el-form-item label="Model platform" prop="platform">
+      <el-form-item label="Platform" prop="platform">
         <el-input
           v-model="queryParams.platform"
-          placeholder="Please enter the model platform"
+          placeholder="Please enter the platform"
           clearable
           @keyup.enter="handleQuery"
           class="!w-240px"
         />
       </el-form-item>
       <el-form-item>
-        <el-button @click="handleQuery"><Icon icon="ep:search" class="mr-5px" /> search</el-button>
+        <el-button @click="handleQuery"><Icon icon="ep:search" class="mr-5px" /> Search</el-button>
         <el-button @click="resetQuery"><Icon icon="ep:refresh" class="mr-5px" /> Reset</el-button>
         <el-button
           type="primary"
           plain
           @click="openForm('create')"
-          v-hasPermi="['ai:chat-model:create']"
+          v-hasPermi="['ai:model:create']"
         >
           <Icon icon="ep:plus" class="mr-5px" /> Add
         </el-button>
@@ -50,52 +51,57 @@
     </el-form>
   </ContentWrap>
 
-  <!-- list -->
+  <!-- 列表 -->
   <ContentWrap>
     <el-table v-loading="loading" :data="list" :stripe="true" :show-overflow-tooltip="true">
-      <el-table-column label="Affiliated platform" align="center" prop="platform">
+      <el-table-column label="Platform" align="center" prop="platform" min-width="100">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.AI_PLATFORM" :value="scope.row.platform" />
         </template>
       </el-table-column>
-      <el-table-column label="Model Name" align="center" prop="name" />
-      <el-table-column label="Model identification" align="center" prop="model" />
-      <el-table-column label="API Secret key" align="center" prop="keyId" min-width="140">
+      <el-table-column label="Type" align="center" prop="type" min-width="100">
+        <template #default="scope">
+          <dict-tag :type="DICT_TYPE.AI_MODEL_TYPE" :value="scope.row.type" />
+        </template>
+      </el-table-column>
+      <el-table-column label="Name" align="center" prop="name" min-width="180" />
+      <el-table-column label="Model" align="center" prop="model" min-width="180" />
+      <el-table-column label="API Key" align="center" prop="keyId" min-width="140">
         <template #default="scope">
           <span>{{ apiKeyList.find((item) => item.id === scope.row.keyId)?.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="sort" align="center" prop="sort" />
-      <el-table-column label="status" align="center" prop="status">
+      <el-table-column label="Sort" align="center" prop="sort" min-width="80" />
+      <el-table-column label="Status" align="center" prop="status" min-width="80">
         <template #default="scope">
           <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="scope.row.status" />
         </template>
       </el-table-column>
-      <el-table-column label="Temperature parameters" align="center" prop="temperature" />
-      <el-table-column label="Number of replies number of Token" align="center" prop="maxTokens" min-width="140" />
-      <el-table-column label="Number of contexts" align="center" prop="maxContexts" />
-      <el-table-column label="operation" align="center">
+      <el-table-column label="Temperature" align="center" prop="temperature" min-width="80" />
+      <el-table-column label="Max Tokens" align="center" prop="maxTokens" min-width="140" />
+      <el-table-column label="Max Contexts" align="center" prop="maxContexts" min-width="100" />
+      <el-table-column label="Operator" align="center" width="180" fixed="right">
         <template #default="scope">
           <el-button
             link
             type="primary"
             @click="openForm('update', scope.row.id)"
-            v-hasPermi="['ai:chat-model:update']"
+            v-hasPermi="['ai:model:update']"
           >
-            edit
+            Edit
           </el-button>
           <el-button
             link
             type="danger"
             @click="handleDelete(scope.row.id)"
-            v-hasPermi="['ai:chat-model:delete']"
+            v-hasPermi="['ai:model:delete']"
           >
-            delete
+            Delete
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- paging -->
+    <!-- 分页 -->
     <Pagination
       :total="total"
       v-model:page="queryParams.pageNo"
@@ -104,25 +110,25 @@
     />
   </ContentWrap>
 
-  <!-- Form pop-up window：add to/modify -->
-  <ChatModelForm ref="formRef" @success="getList" />
+  <!-- 表单弹窗：添加/修改 -->
+  <ModelForm ref="formRef" @success="getList" />
 </template>
 
 <script setup lang="ts">
-import { ChatModelApi, ChatModelVO } from '@/api/ai/model/chatModel'
-import ChatModelForm from './ChatModelForm.vue'
+import { ModelApi, ModelVO } from '@/api/ai/model/model'
+import ModelForm from './ModelForm.vue'
 import { DICT_TYPE } from '@/utils/dict'
 import { ApiKeyApi, ApiKeyVO } from '@/api/ai/model/apiKey'
 
-/** API Chat Model list */
-defineOptions({ name: 'AiChatModel' })
+/** API 模型列表 */
+defineOptions({ name: 'AiModel' })
 
-const message = useMessage() // Message pop-up window
-const { t } = useI18n() // internationalization
+const message = useMessage() // 消息弹窗
+const { t } = useI18n() // 国际化
 
-const loading = ref(true) // Loading the list
-const list = ref<ChatModelVO[]>([]) // List of data
-const total = ref(0) // The total number of pages in the list
+const loading = ref(true) // 列表的加载中
+const list = ref<ModelVO[]>([]) // 列表的数据
+const total = ref(0) // 列表的总页数
 const queryParams = reactive({
   pageNo: 1,
   pageSize: 10,
@@ -130,14 +136,14 @@ const queryParams = reactive({
   model: undefined,
   platform: undefined
 })
-const queryFormRef = ref() // Search form
-const apiKeyList = ref([] as ApiKeyVO[]) // API Key List
+const queryFormRef = ref() // 搜索的表单
+const apiKeyList = ref([] as ApiKeyVO[]) // API 密钥列表
 
-/** Query List */
+/** 查询列表 */
 const getList = async () => {
   loading.value = true
   try {
-    const data = await ChatModelApi.getChatModelPage(queryParams)
+    const data = await ModelApi.getModelPage(queryParams)
     list.value = data.list
     total.value = data.total
   } finally {
@@ -145,41 +151,41 @@ const getList = async () => {
   }
 }
 
-/** Search button operation */
+/** 搜索按钮操作 */
 const handleQuery = () => {
   queryParams.pageNo = 1
   getList()
 }
 
-/** Reset button operation */
+/** 重置按钮操作 */
 const resetQuery = () => {
   queryFormRef.value.resetFields()
   handleQuery()
 }
 
-/** add to/Modify operation */
+/** 添加/修改操作 */
 const formRef = ref()
 const openForm = (type: string, id?: number) => {
   formRef.value.open(type, id)
 }
 
-/** Delete button operation */
+/** 删除按钮操作 */
 const handleDelete = async (id: number) => {
   try {
-    // Secondary confirmation of deletion
+    // 删除的二次确认
     await message.delConfirm()
-    // Initiate deletion
-    await ChatModelApi.deleteChatModel(id)
+    // 发起删除
+    await ModelApi.deleteModel(id)
     message.success(t('common.delSuccess'))
-    // Refresh List 
+    // 刷新列表
     await getList()
   } catch {}
 }
 
-/** initialization **/
+/** 初始化 **/
 onMounted(async () => {
-  getList()
-  // Obtain dropdown data
+  await getList()
+  // 获得下拉数据
   apiKeyList.value = await ApiKeyApi.getApiKeySimpleList()
 })
 </script>
